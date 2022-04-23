@@ -1,0 +1,219 @@
+const infoJson = 'template.json';
+const ul = document.querySelector('.ulClass');
+
+const template = document.querySelector('.plantilla').content; //Ojo, agregar el ".content"
+const fracmento = document.createDocumentFragment();
+
+fetch(infoJson)
+    .then(response => response.json())
+    .then(data=>{
+        data.forEach(pelis =>{
+            //Ya que tenemos la constante template podemos invocar los elementos que hay en ella 
+            template.querySelector('.peli').textContent = pelis.pelicula;
+            template.querySelector('.direct').textContent = pelis.director;
+            
+            const clon = template.cloneNode(true);
+            fracmento.appendChild(clon);
+        })
+        ul.appendChild(fracmento);
+    })
+    .catch(err => console.log(err));
+
+    /*************************************************************************************/
+
+    {
+    "preguntas":
+    [
+        {"enunciado":"¿Que es lo que quiere Lupita?",
+          "questions":[
+              {
+                "opcion1":"Nose",
+                "opcion2":"Mambo",            
+                "opcion3":"Comer chocolate",
+                "correcta":"Bailar"
+              } 
+          ]
+        },
+        {"enunciado":"¿Que esta al final de todo?",
+            "questions":[
+                {
+                "opcion1":"El infinito",            
+                "opcion2":"...Estas tu",
+                "opcion3":"Los Atomos",
+                "correcta":"La o"
+                }
+            ]            
+        },
+        {"enunciado":"¿Quien dirigio la pelicula 'La Pasion de cristo'?",
+            "questions":[
+                {
+                "opcion1":"Tarantino",
+                "opcion2":"Steven Spielberg",            
+                "opcion3":"Sebastian Badilla",
+                "correcta":"Mel Gibson"
+                }
+            ]            
+        },
+        {"enunciado":"2, 3, 5, 7, 8, 15, 17,...",
+            "questions":[
+                {
+                "opcion1":"32, 34...",
+                "opcion2":"19, 36",
+                "opcion3":"E=mc**2",
+                "correcta":"18, 35..."
+                }
+            ]
+        },
+        {"enunciado":"¿De que color es el sol?",
+            "questions":[
+                {
+                "opcion1":"Amarillo",            
+                "opcion2":"Anaranjado",
+                "opcion3":"Rojo tirado pa' violeta",
+                "correcta":"Blanco"
+                }
+            ]
+        },
+        {"enunciado":"¿Como se llama el jefe final del Mortal Kombat II?",            
+            "questions":[
+                {
+                "opcion1":"Shang Tsung",
+                "opcion2":"Shin Shan",
+                "opcion3":"Kintaro",
+                "correcta":"Shao Khan"
+                }
+            ]
+        },
+        {"enunciado":"¿Cual es el personaje favorito de los niños de 31 minutos?",
+            "questions":[
+                {
+                "opcion1":"Juan Carlos Bodoque",
+                "opcion2":"Tulio Triviño",
+                "opcion3":"LA LA",
+                "correcta":"Guaripolo"
+                }
+            ]
+        }
+    ]
+}
+
+/* -------------------------------------------------------------------------- */
+
+const infoJson = 'juego1.json';
+const contenedor = document.querySelector('.juego');
+
+let acertadas=0;
+let equivocadas = 0;
+
+fetch(infoJson)
+    .then(response => response.json())
+    .then(data =>{   
+        const template = document.querySelector('template').content;
+        const frac = document.createDocumentFragment();
+        const clone = template.cloneNode(true);
+
+        frac.appendChild(clone);
+        contenedor.appendChild(frac);
+
+        let num = 0; 
+        principal(data,num)           
+    })
+    .catch(err => console.log(err));
+
+    function principal(data, n){        
+        document.querySelector(".btn-siguiente").style.visibility="hidden"; 
+        document.querySelector('.opcion1').disabled = false;
+        document.querySelector('.opcion2').disabled = false;
+        document.querySelector('.opcion3').disabled = false;
+        document.querySelector('.opcion4').disabled = false;           
+
+        let datos = data.preguntas[n];   
+        console.log(datos)     
+            
+        construir(data, datos, n)
+        }
+        function construir(data, datos, n){                        
+            document.querySelector('.question').textContent = datos.enunciado;
+            document.querySelector('.opcion1').textContent = datos.questions[0];
+            document.querySelector('.opcion2').textContent = datos.questions[1];
+            document.querySelector('.opcion3').textContent = datos.questions[2];
+            document.querySelector('.opcion4').textContent = datos.questions[3];
+
+            validarRespuesta(data, datos, n) 
+        }
+        function validarRespuesta(data, valor, n){
+            const valido = valor.correcta;
+
+            let resp1 = document.querySelector('.opcion1');
+            let resp2 = document.querySelector('.opcion2');
+            let resp3 = document.querySelector('.opcion3');
+            let resp4 = document.querySelector('.opcion4');
+
+            resp1.onclick = ()=>{
+                if(resp1.textContent == valido){                      
+                    correcto(data, n)                          
+                }else{                    
+                    erroneo(data, n)                       
+                }        
+            }
+            resp2.onclick = ()=>{
+                if(resp2.textContent == valido){                      
+                    correcto(data, n);                                            
+                }else{                    
+                    erroneo(data, n);                       
+                }        
+            }
+            resp3.onclick = ()=>{
+                if(resp3.textContent == valido){                      
+                    correcto(data, n);                        
+                }else{
+                    erroneo(data,n);                                     
+                }        
+            }
+            resp4.onclick = ()=>{
+                if(resp4.textContent == valido){  
+                    correcto(data, n);                       
+                }else{
+                    erroneo(data, n);                      
+                }         
+            }
+        }
+
+    function correcto(data, n){
+        acertadas += 1;
+        console.log('RESPUESTA CORRECTA!!')
+        limpiar();        
+        n += 1;     
+        boton(data, n, acertadas, equivocadas)
+    }
+    function erroneo(data, n){
+        equivocadas +=1;
+        console.log('HA FALLADO!!')
+        limpiar();        
+        n += 1;
+        boton(data, n, acertadas, equivocadas) 
+    }
+
+    function boton(valor, n, a, e){
+        let presion = document.querySelector('.btn-siguiente');
+        presion.onclick = ()=>{
+            if(n < valor.preguntas.length){
+                principal(valor, n)
+            }else{
+                console.log("FIN DEL JUEGO")
+                console.log('Acertadas :'+a)
+                console.log('Equivocadas :'+e)
+                document.querySelector('.btn-siguiente').disabled = true;
+            }            
+        }
+    }
+
+    function limpiar(){
+        document.querySelector(".btn-siguiente").style.visibility="visible"; 
+        document.querySelector('.opcion1').disabled = true;
+        document.querySelector('.opcion2').disabled = true;
+        document.querySelector('.opcion3').disabled = true;
+        document.querySelector('.opcion4').disabled = true;             
+    }
+     
+    

@@ -1,0 +1,33 @@
+{
+    "preguntas":
+    [
+        {"enunciado":"¿Que le pasa a Lupita?",
+          "questions":["Nose", "Quiere Mambo", "Quiere Comer chocolate", "Quiere Bailar"],
+          "correcta":"Quiere Bailar"
+        },
+        {"enunciado":"¿Que esta al final de todo?",
+            "questions":["El infinito", "...Estas tu", "La o", "Los Atomos"],
+            "correcta":"La o"                       
+        },
+        {"enunciado":"¿Quien dirigio la pelicula 'La Pasion de cristo'?",
+            "questions":["Tarantino", "Steven Spielberg", "Mel Gibson", "Sebastian Badilla"],
+            "correcta":"Mel Gibson"                          
+        },
+        {"enunciado":"2, 3, 5, 7, 8, 15, 17,...",
+            "questions":["32, 34...", "18, 35...", "E=mc**2", "19, 36..."],
+            "correcta":"18, 35..."            
+        },
+        {"enunciado":"¿De que color es el sol?",
+            "questions":["Blanco", "Amarillo", "Naranjo", "Rojo tirado pa Violeta"],
+            "correcta":"Blanco"         
+        },
+        {"enunciado":"¿Como se llama el jefe final del Mortal Kombat II?",            
+            "questions":["Shang Tsung", "Shin Shan", "Kintaro", "Shao Khan"],
+            "correcta":"Shao Khan"             
+        },
+        {"enunciado":"¿Cual es el personaje favorito de los niños de 31 minutos?",
+            "questions":["Juan Carlos Bodoque", "Tulio Triviño", "Guaripolo", "LA LA"],
+            "correcta":"Guaripolo"                
+        }
+    ]
+}
